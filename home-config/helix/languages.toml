@@ -1,0 +1,34 @@
+[[language]]
+name = "typescript"
+language-servers = [ { name = "vtsls" }, "tailwindcss-ls" ]
+auto-format = true
+
+[[language]]
+name = "tsx"
+language-servers = [ { name = "vtsls" }, "tailwindcss-ls" ]
+auto-format = true
+
+[language-server.vtsls]
+command = "vtsls"
+args = ["--stdio"]
+config.typescript.updateImportsOnFileMove.enabled = "always"
+
+[language-server.intelephense]
+command = "intelephense"
+args = ["--stdio"]
+config = { storagePath = "/tmp/intelephense" }
+
+[[language]]
+name = "php"
+language-servers = [ "intelephense", "phpactor" ]
+auto-format = true
+
+[language-server.phpactor]
+command = "phpactor"
+args = ["language-server"]
+
+[[language]]
+name = "blade"
+scope = "source.blade"
+injection-regex = "blade"
+file-types = ["blade.php"]

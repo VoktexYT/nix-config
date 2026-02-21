@@ -1,9 +1,10 @@
-{  pkgs, unstable, ... }:
+{  pkgs, unstable, inputs, username, ... }:
 
 {
   imports =
     [ 
       ./hardware-configuration.nix
+      inputs.home-manager.nixosModules.home-manager
     ];
 
   nixpkgs.config.allowUnfree = true;
@@ -17,7 +18,7 @@
   time.timeZone = "America/Toronto";
   hardware.graphics.enable = true;
 
-  users.users.voktex = {
+  users.users.${username} = {
     isNormalUser = true;
     extraGroups = [ "docker" "wheel" "adbusers" "kvm" "libvirtd" ]; 
     shell = pkgs.bash;
@@ -32,6 +33,20 @@
 
   programs.sway.enable = true;
   programs.ssh.startAgent = true;  
+  programs.zoxide.enable = true;
+  programs.bash.promptInit = ''
+    export PS1="\[\033[0;90m\]\w \$ \[\033[0m\]"
+
+    alias lgit="lazygit"
+    alias ldocker="lazydocker"
+    alias d="docker"
+    alias c="clear"
+    alias cls="clear"
+    alias cd="z"
+
+    alias rebuild="sudo nixos-rebuild switch --flake /etc/nixos#${username}"
+  '';
+  
 
   environment.systemPackages = with pkgs; [    
     ### SOFTWARES
@@ -63,11 +78,30 @@
     tmux
     
     ### HELIX LSP
-    nodejs_22
-    phpactor
+
+    #// HTML5, CSS3, SCSS, JSON, TSX, JSX
+    nodePackages.prettier
     vtsls
-    nodePackages.typescript
+    tailwindcss-language-server
+
+    #// Typescript, Javascript
     nodePackages.vscode-langservers-extracted
+
+    #// nix
+    nixd
+    
+    #// Python
+    ruff
+    python3Packages.jedi-language-server
+
+    #// SQL
+    sqls
+    sqlfluff
+
+    #// PHP
+    phpactor
+    nodePackages.intelephense
+    php83Packages.php-cs-fixer
   ];
 
   ###
@@ -79,15 +113,12 @@
   };
 
 
-  programs.bash.promptInit = ''
-    export PS1="\[\033[0;90m\]\w \$ \[\033[0m\]"
-
-    alias lgit="lazygit"
-    alias ldocker="lazydocker"
-    alias d="docker"
-
-    alias rebuild="sudo nixos-rebuild switch --flake /etc/nixos#voktex"
-  '';
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = { inherit username; };
+    users.${username} = import ./home-config.nix;
+  };
 
   services.dbus.enable = true;
   services.openssh.enable = true;

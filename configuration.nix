@@ -33,20 +33,7 @@
 
   programs.sway.enable = true;
   programs.ssh.startAgent = true;  
-  programs.zoxide.enable = true;
-  programs.bash.promptInit = ''
-    export PS1="\[\033[0;90m\]\w \$ \[\033[0m\]"
-
-    alias lgit="lazygit"
-    alias ldocker="lazydocker"
-    alias d="docker"
-    alias c="clear"
-    alias cls="clear"
-    alias cd="z"
-
-    alias rebuild="sudo nixos-rebuild switch --flake /etc/nixos#${username}"
-  '';
-  
+  programs.zoxide.enable = true;  
 
   environment.systemPackages = with pkgs; [    
     ### SOFTWARES

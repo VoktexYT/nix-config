@@ -31,12 +31,76 @@ let
     focused = "#504945";
     text    = "#ffffff";
   };
+
+  noHash = c: builtins.substring 1 6 c; # Remove the '#' symbol for foot color
 in
 {
   # HOME MANAGER METADATA
   home.username = username;
   home.homeDirectory = "/home/${username}";
   home.stateVersion = "25.11";
+
+  ###############################
+  # BASH
+  ###############################
+  programs.bash = {
+    enable = true;
+    shellAliases = {
+      lgit = "lazygit";
+      ldocker = "lazydocker";
+      rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#${username}";
+      cd = "z";
+      cls = "clear";
+      c = "clear";
+    };
+    
+    initExtra = ''
+      export PS1="\[\e[38;2;146;131;116m\]\w \$\[\e[0m\] "
+    '';
+  };
+
+  ###############################
+  # LAZYDOCKER
+  ###############################
+  programs.lazydocker = {
+    enable = true;
+    settings = {
+      gui.theme = {
+        activeBorderColor = [ "${colors.yellow}" "bold" ];
+        inactiveBorderColor = [ "${colors.gray}" ];
+        
+        optionsTextColor = [ "${colors.blue}" ];
+        selectedLineBgColor = [ "${colors.dark}" ];
+        selectedRangeBgColor = [ "${colors.dark}" ];
+        
+        allBranchesLogGraphColor = [ "${colors.magenta}" ];
+        defaultFgColor = [ "${colors.fg}" ];
+      };
+    };
+  };
+
+  ###############################
+  # LAZYGIT
+  ###############################
+  programs.lazygit = {
+    enable = true;
+    settings = {
+      gui.theme = {
+        activeBorderColor = [ "${colors.yellow}" "bold" ];
+        inactiveBorderColor = [ "${colors.gray}" ];
+        searchingActiveBorderColor = [ "${colors.cyan}" "bold" ];
+        
+        optionsTextColor = [ "${colors.blue}" ];
+        selectedLineBgColor = [ "${colors.dark}" ];
+        selectedRangeBgColor = [ "${colors.dark}" ];
+        cherryPickedCommitBgColor = [ "${colors.cyan}" ];
+        cherryPickedCommitFgColor = [ "${colors.blue}" ];
+        
+        unstagedChangesColor = [ "${colors.red}" ];
+        defaultFgColor = [ "${colors.fg}" ];
+      };
+    };
+  };
   
   ###############################
   # TMUX
@@ -195,26 +259,26 @@ in
         shell = "${pkgs.tmux}/bin/tmux";
       };
       colors = {
-        foreground = "${colors.fg}";
-        background = "${colors.bg}";
+        foreground = noHash colors.fg;
+        background = noHash colors.bg;
 
-        regular0 = "${colors.black}";
-        regular1 = "${colors.red}";
-        regular2 = "${colors.green}";
-        regular3 = "${colors.yellow}";
-        regular4 = "${colors.blue}";
-        regular5 = "${colors.magenta}";
-        regular6 = "${colors.cyan}";
-        regular7 = "${colors.white}";
+        regular0 = noHash colors.black;
+        regular1 = noHash colors.red;
+        regular2 = noHash colors.green;
+        regular3 = noHash colors.yellow;
+        regular4 = noHash colors.blue;
+        regular5 = noHash colors.magenta;
+        regular6 = noHash colors.cyan;
+        regular7 = noHash colors.white;
 
-        bright0 = "${colors.gray}";
-        bright1 = "${colors.br_red}";
-        bright2 = "${colors.br_green}";
-        bright3 = "${colors.br_yellow}";
-        bright4 = "${colors.br_blue}";
-        bright5 = "${colors.br_magenta}";
-        bright6 = "${colors.br_cyan}";
-        bright7 = "${colors.fg}";
+        bright0 = noHash colors.gray;
+        bright1 = noHash colors.br_red;
+        bright2 = noHash colors.br_green;
+        bright3 = noHash colors.br_yellow;
+        bright4 = noHash colors.br_blue;
+        bright5 = noHash colors.br_magenta;
+        bright6 = noHash colors.br_cyan;
+        bright7 = noHash colors.fg;
       };
     };
   };

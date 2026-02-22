@@ -1,15 +1,15 @@
 { pkgs, username, ... }:
 
 let
-  helix-theme = "gruvbox";
-  
+     helix-theme = "gruvbox";
+
   colors = {
     bg      = "#282828";
     bg_hard = "#1d2021";
     fg      = "#ebdbb2";
     dark    = "#504945";
     gray    = "#928374";
-    
+
     black   = "#282828";
     red     = "#cc241d";
     green   = "#98971a";
@@ -31,8 +31,9 @@ let
     focused = "#504945";
     text    = "#ffffff";
   };
-
-  noHash = c: builtins.substring 1 6 c; # Remove the '#' symbol for foot color
+  
+  # Ta fonction pour Foot qui retire le #
+  noHash = c: builtins.substring 1 6 c;
 in
 {
   # HOME MANAGER METADATA
@@ -43,21 +44,21 @@ in
   ###############################
   # BASH
   ###############################
-  programs.bash = {
-    enable = true;
-    shellAliases = {
-      lgit = "lazygit";
-      ldocker = "lazydocker";
-      rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#${username}";
-      cd = "z";
-      cls = "clear";
-      c = "clear";
-    };
+  # programs.bash = {
+  #   enable = true;
+  #   shellAliases = {
+  #     lgit = "lazygit";
+  #     ldocker = "lazydocker";
+  #     rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#${username}";
+  #     cd = "z";
+  #     cls = "clear";
+  #     c = "clear";
+  #   };
     
-    initExtra = ''
-      export PS1="\[\e[38;2;146;131;116m\]\w \$\[\e[0m\] "
-    '';
-  };
+  #   initExtra = ''
+  #     export PS1="\[\e[38;2;146;131;116m\]\w \$\[\e[0m\] "
+  #   '';
+  # };
 
   ###############################
   # LAZYDOCKER

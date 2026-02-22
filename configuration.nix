@@ -10,7 +10,15 @@
   nixpkgs.config.allowUnfree = true;
 
   boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.configurationLimit = 5;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.timeout = 0;
+
+  nix.gc = {
+    automatic = true;
+    dates = "daily";
+    options = "--delete-older-than 7d";
+  };
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
@@ -21,7 +29,7 @@
   users.users.${username} = {
     isNormalUser = true;
     extraGroups = [ "docker" "wheel" "adbusers" "kvm" "libvirtd" ]; 
-    shell = pkgs.bash;
+    shell = pkgs.fish;
   };
 
   fonts.packages = with pkgs; [
@@ -33,13 +41,44 @@
 
   programs.sway.enable = true;
   programs.ssh.startAgent = true;  
-  programs.zoxide.enable = true;  
+
+  programs.zoxide = {
+    enable = true;
+    enableFishIntegration = true;
+  }; 
+  
+  programs.fish = {
+    enable = true;
+
+    interactiveShellInit = ''
+      set fish_greeting
+    '';
+
+    promptInit = ''
+      function fish_prompt
+        set_color brgrey
+        
+        printf '%s $ ' (prompt_pwd)
+        
+        set_color normal
+      end
+    '';
+
+    shellAbbrs = {
+      cd = "z";
+      lgit = "lazygit";
+      ldocker = "lazydocker";
+      cls = "clear";
+      c = "clear";
+      rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#${username}";
+    };
+  };
 
   environment.systemPackages = with pkgs; [    
     ### SOFTWARES
     foot
     firefox
-    autotiling
+    helix
 
     ### TOOLS
     git
@@ -55,7 +94,7 @@
     
     ## SYSTEM
     fastfetch
-    helix
+    autotiling
 
     ### COPY-PAST
     wl-clipboard

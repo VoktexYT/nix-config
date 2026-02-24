@@ -58,7 +58,7 @@
       function fish_prompt
         set_color brgrey
         
-        printf '%s $ ' (prompt_pwd)
+        printf '\n%s $ ' (prompt_pwd)
         
         set_color normal
       end
@@ -66,13 +66,26 @@
 
     shellAbbrs = {
       cd = "z";
+
       lgit = "lazygit";
       ldocker = "lazydocker";
+
       cls = "clear";
       c = "clear";
+      
       rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#${username}";
-      ls = "eza";
       cat = "bat";
+
+      ls = "eza --icons --group-directories-first";  
+      l = "eza -lh --icons --git --group-directories-first";  
+      la = "eza -lah --icons --git";
+
+      dev = "tmux kill-pane -a \\
+          && tmux split-window -v -p 20 \\
+          && tmux select-pane -t 1 \\
+          && tmux split-window -h -p 80 'hx .' \\
+          && tmux select-pane -t 1 \\
+          && nnn";
     };
   };
 
@@ -80,16 +93,18 @@
     ### SOFTWARES
     foot
     firefox
-    helix
-    nnn
 
+    ## LANGUAGES / COMPILER / INTERPRETER
+    bun
+    python3
+    
     ### TOOLS
     git
     unstable.kiro-cli
     lazygit
     lazydocker
-    bun
-    python3
+    nnn
+    btop
     
     ### SCREENSHOT
     grim
@@ -99,6 +114,7 @@
     fastfetch
     autotiling
     eza
+    helix
     bat
 
     ### COPY-PAST

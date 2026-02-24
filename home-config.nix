@@ -18,6 +18,7 @@ let
     magenta = "#b16286";
     cyan    = "#689d6a";
     white   = "#a89984";
+    orange  = "#d65d0e";
 
     # Bright
     br_red     = "#fb4934";
@@ -26,7 +27,7 @@ let
     br_blue    = "#83a598";
     br_magenta = "#d3869b";
     br_cyan    = "#8ec07c";
-
+    br_orange  = "#fe8019";
     # Sway
     focused = "#504945";
     text    = "#ffffff";
@@ -40,25 +41,6 @@ in
   home.username = username;
   home.homeDirectory = "/home/${username}";
   home.stateVersion = "25.11";
-
-  ###############################
-  # BASH
-  ###############################
-  # programs.bash = {
-  #   enable = true;
-  #   shellAliases = {
-  #     lgit = "lazygit";
-  #     ldocker = "lazydocker";
-  #     rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#${username}";
-  #     cd = "z";
-  #     cls = "clear";
-  #     c = "clear";
-  #   };
-    
-  #   initExtra = ''
-  #     export PS1="\[\e[38;2;146;131;116m\]\w \$\[\e[0m\] "
-  #   '';
-  # };
 
   ###############################
   # LAZYDOCKER
@@ -117,7 +99,6 @@ in
       set -g prefix M-Space
       unbind C-b
 
-      # Utilisation des variables dans les commandes Tmux
       bind M-Space set status-style bg=${colors.black},fg=${colors.white} \; send-prefix
 
       bind -n M-q kill-pane
@@ -139,8 +120,8 @@ in
       set -g status-left ""
       set -g status-right " #(acpi | cut -d ',' -f 2 | tr -d ' ') | %H:%M "
 
-      set -g pane-border-style fg=${colors.red}
-      set -g pane-active-border-style fg=${colors.yellow}
+      set -g pane-border-style fg=${colors.focused}
+      set -g pane-active-border-style fg=${colors.orange}
     '';
   };
 

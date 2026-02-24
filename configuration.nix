@@ -79,6 +79,7 @@
     foot
     firefox
     helix
+    nnn
 
     ### TOOLS
     git

@@ -71,6 +71,8 @@
       cls = "clear";
       c = "clear";
       rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#${username}";
+      ls = "eza";
+      cat = "bat";
     };
   };
 
@@ -96,6 +98,8 @@
     ## SYSTEM
     fastfetch
     autotiling
+    eza
+    bat
 
     ### COPY-PAST
     wl-clipboard

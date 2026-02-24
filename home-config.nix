@@ -97,11 +97,15 @@ in
     extraConfig = ''
       set -g mouse on
       set -g prefix M-Space
+
       unbind C-b
+      unbind q
+      unbind Q
 
       bind M-Space set status-style bg=${colors.black},fg=${colors.white} \; send-prefix
 
-      bind -n M-q kill-pane
+      bind q kill-pane
+      bind Q kill-window
       bind r source-file ~/.config/tmux/tmux.conf \; display "Config Reloaded!"
 
       bind \\ split-window -h -c "#{pane_current_path}"
@@ -111,6 +115,13 @@ in
       bind -n M-j select-pane -D
       bind -n M-k select-pane -U
       bind -n M-l select-pane -R
+
+      bind -n M-H resize-pane -L 5
+      bind -n M-J resize-pane -D 2
+      bind -n M-K resize-pane -U 2
+      bind -n M-L resize-pane -R 5
+
+      bind D split-window -h -p 30 \; split-window -v -p 50 \; select-pane -L
 
       set -g status-style bg=${colors.black},fg=${colors.white}
 

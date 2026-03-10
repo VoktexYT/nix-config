@@ -22,9 +22,14 @@
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
+  networking.firewall.allowedTCPPorts = [ 22000 ];
+  networking.firewall.allowedUDPPorts = [ 22000 21027 ];
 
   time.timeZone = "America/Toronto";
+  
   hardware.graphics.enable = true;
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
 
   users.users.${username} = {
     isNormalUser = true;
@@ -92,11 +97,15 @@
   environment.systemPackages = with pkgs; [    
     ### SOFTWARES
     foot
-    firefox
+    gh
+    brave
+    obsidian
 
     ## LANGUAGES / COMPILER / INTERPRETER
     bun
     python3
+    php82
+    php82Packages.composer
     
     ### TOOLS
     git
@@ -105,6 +114,13 @@
     lazydocker
     nnn
     btop
+    httpie
+    circumflex
+
+    ripgrep
+    fd
+    sd
+    fzf
     
     ### SCREENSHOT
     grim
@@ -126,6 +142,9 @@
     
     ### HELIX LSP
 
+    # Markdown
+    marksman
+    
     #// HTML5, CSS3, SCSS, JSON, TSX, JSX
     nodePackages.prettier
     vtsls
@@ -154,9 +173,12 @@
   ###
   xdg.portal = {
     enable = true;
+
     extraPortals = [
       pkgs.xdg-desktop-portal-wlr
     ];
+    
+    config.common.default = "*";
   };
 
 
@@ -181,6 +203,16 @@
   services.pipewire = {
     enable = true;
     pulse.enable = true;
+  };
+
+  services.syncthing = {
+    enable = true;
+    user = "voktex";
+    dataDir = "/home/voktex/Obsidian";
+    configDir = "/home/voktex/.config/syncthing";
+    overrideDevices = true;
+    overrideFolders = true;
+    guiAddress = "127.0.0.1:8384";
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

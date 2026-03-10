@@ -198,8 +198,10 @@ in
       keybindings = let
         mod = "Mod4";
       in {
+        "${mod}+o" = "exec obsidian";
+        "${mod}+r" = "exec reboot";
         "${mod}+Return" = "exec foot";
-        "${mod}+w" = "exec firefox";
+        "${mod}+w" = "exec brave";
         "${mod}+s" = "exec grim -g \"$(slurp)\" - | wl-copy";
         "${mod}+q" = "kill";
 
@@ -325,6 +327,11 @@ in
 
     languages = {
       language-server = {
+        marksman = {
+          command = "marksman";
+          args = ["server"];
+        };
+        
         vtsls = {
           command = "vtsls";
           args = ["--stdio"];
@@ -358,6 +365,15 @@ in
       };
 
       language = [
+        {
+          name = "markdown";
+          scope = "source.md";
+          injection-regex = "md|markdown";
+          file-types = ["md" "markdown"];
+          roots = [".zk" ".obsidian" ".git"];
+          language-servers = [ "marksman" ];
+        }  
+        
         {
           name = "typescript";
           language-servers = [ { name = "vtsls"; } "tailwindcss-ls" "eslint" ];

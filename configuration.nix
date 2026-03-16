@@ -44,7 +44,10 @@
   virtualisation.libvirtd.enable = true;
   virtualisation.docker.enable = true;
 
-  programs.sway.enable = true;
+  programs.sway = {
+    enable = true;
+  };
+
   programs.ssh.startAgent = true;  
 
   programs.zoxide = {
@@ -100,6 +103,8 @@
     gh
     brave
     obsidian
+    signal-cli
+    qrencode
 
     ## LANGUAGES / COMPILER / INTERPRETER
     bun

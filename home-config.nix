@@ -33,7 +33,6 @@ let
     text    = "#ffffff";
   };
   
-  # Ta fonction pour Foot qui retire le #
   noHash = c: builtins.substring 1 6 c;
 in
 {
@@ -150,6 +149,13 @@ in
     config = {
       modifier = "Mod4";
       terminal = "foot";
+
+      input = {
+        "*" = {
+          xkb_layout = "us,ca";
+          xkb_options = "grp:win_space_toggle";
+        };
+      };
       
       startup = [
         { command = "autotiling"; }
